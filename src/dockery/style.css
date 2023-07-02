@@ -1,0 +1,86 @@
+ContainerWidget,
+ImageWidget,
+NetworkWidget,
+VolumeWidget {
+    layout: horizontal;
+    background: $boost;
+    height: 3;
+    margin: 1;
+    min-width: 50;
+    padding: 0 2;
+}
+
+Footer {
+    background: $background-lighten-2;
+}
+
+Footer .footer--description {
+    background: transparent;
+}
+
+.footer--key {
+    background: $primary-background-lighten-2;
+}
+
+.footer--highlight {
+    background: $background-lighten-3;
+}
+
+.footer--highlight-key {
+    background: $primary-background-lighten-3;
+}
+
+.container-info {
+    width: 1fr;
+}
+
+.stats-text {
+    width: 1fr;
+}
+
+.stats-text > Horizontal > ReactiveString {
+    width: 12;
+    height: 1;
+}
+
+CustomButton {
+    height: 3;
+    padding: 1 2;
+    width: auto;
+}
+
+CustomButton:hover {
+    text-style: bold;
+}
+
+LogsButton {
+    width: 10;
+}
+
+RestartButton {
+    width: 14;
+}
+
+StartStopButton {
+    width: 11;
+}
+
+TabPane {
+    height: 100;
+}
+
+#header {
+    dock: top;
+    height: 3;
+}
+
+HeaderClock {
+    height: 3;
+    background: transparent;
+}
+
+.container-name {
+    overflow-x: hidden;
+    max-width: 100%;
+    height: 1;
+}

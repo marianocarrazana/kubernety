@@ -1,0 +1,36 @@
+
+[project]
+name = "kubernety"
+version = "0.1.0"
+description = "Graphical interface for Kubernetes API in your console"
+authors = [
+    {name = "Mariano Carrazana", email = "marianocarrazana@gmail.com"},
+]
+dependencies = [
+    "textual>=0.28.0",
+    "click>=8.1.3",
+    "pyyaml>=6.0",
+    "kubernetes>=26.1.0",
+]
+requires-python = ">=3.9"
+readme = "README.md"
+license = {text = "MIT"}
+
+[build-system]
+requires = ["pdm-backend"]
+build-backend = "pdm.backend"
+
+[project.scripts]
+kubernety = "kubernety.main:main"
+
+[tool.pdm.dev-dependencies]
+dev = [
+    "bandit>=1.7.5",
+    "black>=23.3.0",
+    "ruff>=0.0.272",
+    "debugpy>=1.6.7",
+]
+
+[project.urls]
+"Bug Tracker" = "https://github.com/marianocarrazana/kubernety/issues"
+"Source Code" = "https://github.com/marianocarrazana/kubernety"
