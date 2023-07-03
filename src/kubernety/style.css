@@ -1,7 +1,4 @@
-ContainerWidget,
-ImageWidget,
-NetworkWidget,
-VolumeWidget {
+PodWidget {
     layout: horizontal;
     background: $boost;
     height: 3;

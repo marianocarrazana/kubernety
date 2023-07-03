@@ -3,15 +3,17 @@ from textual.app import ComposeResult
 from textual.widgets import Static, Label
 from textual.reactive import reactive
 from textual.containers import Vertical
+from kubernetes.client.api.core_v1_api import CoreV1Api
+from kubernetes.client.models import V1Pod
 
 from .custom_widgets import ResponsiveGrid
 
 
 class PodsList(ResponsiveGrid):
-    images_count = reactive(0)
+    pods_count = reactive(0)
 
-    def __init__(self, kclient, **kargs):
-        self.images = []
+    def __init__(self, kclient:CoreV1Api, **kargs):
+        self.pods = []
         self.kclient = kclient
         super().__init__(**kargs)
 
@@ -22,35 +24,27 @@ class PodsList(ResponsiveGrid):
     def count_timer(self) -> None:
         self.get_images()
 
-    async def watch_images_count(self, count: int) -> None:
+    async def watch_pods_count(self, count: int) -> None:
         await self.grid.remove_children()
-        for c in self.images:
-            cw = PodWidget(c, self.kclient)  # type: ignore
+        for pod in self.pods:
+            cw = PodWidget(pod, self.kclient) 
             self.grid.mount(cw)
 
     @work(exclusive=True)
     def get_images(self) -> None:
-        self.images = self.kclient.images.list(all=False)
-        self.images_count = len(self.images)
+        self.pods = self.kclient.list_pod_for_all_namespaces(watch=False).items
+        self.pods_count = len(self.pods)
 
 
 class PodWidget(Static):
-    def __init__(self, image: Image, client, **kargs):
-        self.image = image
+    def __init__(self, pod:V1Pod, client:CoreV1Api, **kargs):
+        self.pod = pod
         self.client = client
-        self.attrs = image.attrs or {}
-        self.isize = self.attrs.get("Size", 0) / 1000 / 1000
-        if self.image.tags:
-            self.tag = self.image.tags[0]
-        elif self.image.id:
-            self.tag = self.image.id.replace("sha256:", "")
-        else:
-            self.tag = ""
         super().__init__(**kargs)
 
     def compose(self) -> ComposeResult:
         yield Vertical(
-            Label("[b]" + self.tag),
-            Label(self.image.short_id.replace("sha256:", "")),
-            Label(f"Size: {self.isize:.2f}MB"),
+            Label("[b]" + self.pod.metadata.name),
+            Label(self.pod.metadata.namespace),
+            Label(self.pod.status.pod_ip),
         )

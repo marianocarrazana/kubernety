@@ -1,3 +1,4 @@
+import sys
 from kubernetes import client, config
 import click
 from rich import print
@@ -38,6 +39,15 @@ def main(ctx, **kargs):
     if ctx.invoked_subcommand is None:
         run_gui(**kargs)
 
+@click.command
+@add_options(default_options)
+def pods(**kargs):
+    client = get_client(**kargs)
+    ret = client.list_pod_for_all_namespaces(watch=False)
+    for i in ret.items:
+        print("%s\t%s\t%s" % (i.status.pod_ip, i.metadata.namespace, i.metadata.name))
+
+main.add_command(pods)
 
 if __name__ == "__main__":
     main()
