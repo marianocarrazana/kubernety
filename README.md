@@ -4,11 +4,9 @@ Graphical interface for Kubernetes API in your console
 
 <table>
   <tr>
-    <td></td>
-    <td></td>
-  </tr>
-  <tr>
-    <td colspan="2"></td>
+    <td>
+      <img src="https://github.com/marianocarrazana/kubernety/assets/17238076/4a955a2a-faec-412c-a9fa-dc6269eb6be0"/>
+    </td>
   </tr>
 </table>
 
